@@ -5,22 +5,23 @@ import Heading from './app-bar'
 
 let defaultState = {
   id: null,
-  question: '',
-  answer: ''
+  title: '',
+  icon: 'flight-takeoff',
+  questions: []
 }
 
-class NewCard extends Component {
+class NewDeck extends Component {
 
   constructor ({props}) {
     super(props)
-    const {deck} = props
     this.state = defaultState
-    this.state.deck = deck
   }
 
   save (state) {
-    this.saveNewCard(this.state)
+    let { id } = this.state
+    this.saveNewDeck(this.state)
     this.setState(defaultState)
+    return id
   }
 
   cancel () {
@@ -29,22 +30,19 @@ class NewCard extends Component {
 
   render () {
     const {navigation} = this.props
-    const {deck} = this.state
     return (
       <View style={{flex: 1}}>
-        <Heading title='New Card' navigation={{navigation}} />
+        <Heading title='New Deck' navigation={{navigation}} />
         <Card style={{ backgroundColor: '#fff' }}>
-          <Text style={{marginBottom: 10, textAlign: 'center'}}>Question</Text>
-          <TextInput {...this.props} editable maxLength={50} onChangeText={(text) => this.setState({question: text})} value={this.state.question} />
-          <Text style={{marginBottom: 10, textAlign: 'center'}}>Answer</Text>
-          <TextInput {...this.props} editable maxLength={50} onChangeText={(text) => this.setState({answer: text})} value={this.state.answer} />
+          <Text style={{marginBottom: 10, textAlign: 'center'}}>Deck title</Text>
+          <TextInput {...this.props} editable maxLength={20} onChangeText={(text) => this.setState({title: text})} value={this.state.title} />
           <Button
             backgroundColor='#03A9F4'
             buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
             title='Save'
             onPress={() => {
-              this.save(this.state)
-              navigation.navigate(`deck/${deck.id}`)
+              let id = this.save(this.state)
+              navigation.navigate(`deck/${id}`)
             }} />
           <Button
             backgroundColor='#03A9F4'
@@ -61,4 +59,4 @@ class NewCard extends Component {
   }
 }
 
-export default NewCard
+export default NewDeck

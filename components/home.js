@@ -6,31 +6,44 @@ import DeckList from './list-deck'
 
 const list = [
   {
+    id: 'abc',
     title: 'React',
-    icon: 'av-timer'
+    icon: 'av-timer',
+    questions: [
+      {question: 'How react works?', answer: 'Works very fine :D'},
+      {question: 'my other question', answer: 'my answer to the question'}
+    ]
   },
   {
+    id: 'xyz',
     title: 'Redux and React Native',
-    icon: 'flight-takeoff'
+    icon: 'flight-takeoff',
+    questions: [
+      {question: 'How redux and react works?', answer: 'Works amazing'}
+    ]
   },
   {
+    id: 'hua',
     title: 'C++',
-    icon: 'no-encryption'
+    icon: 'no-encryption',
+    questions: [
+      {question: 'How C++ works?', answer: 'Works very hard :D'}
+    ]
   }
 ]
 
 const Home = ({navigation}) => (
   <View style={{flex: 1}}>
-    <Heading title='Flash Cards' navigation={{ navigation }} />
+    <Heading title='Flash Cards' navigation={navigation} />
     <Card style={{ backgroundColor: '#fff' }}>
       <Text style={{marginBottom: 10, textAlign: 'center'}}>Add a new deck to play some quizes</Text>
       <Button
         backgroundColor='#03A9F4'
         buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
         title='New Deck'
-        onPress={() => console.log('Calling new item')} />
+        onPress={() => navigation.navigate('NewDeck')} />
     </Card>
-    <DeckList items={list} />
+    <DeckList items={list} navigation={navigation} />
   </View>
 )
 

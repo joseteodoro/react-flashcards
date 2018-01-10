@@ -1,16 +1,12 @@
 import React from 'react'
-import { List, ListItem } from 'react-native-elements'
+import { List } from 'react-native-elements'
+import Deck from './deck-list-item'
 
-const DeckList = ({items}) => (
+const DeckList = ({items, navigation}) => (
   <List>
     {
       items.map((item, i) => (
-        <ListItem
-          key={i}
-          title={item.title}
-          leftIcon={{name: item.icon, size: 22}}
-          onPress={() => console.log(`Calling the ${item.title}`)}
-        />
+        <Deck deck={item} key={`${i}_deck`} navigation={navigation} />
       ))
     }
   </List>
