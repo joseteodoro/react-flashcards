@@ -32,21 +32,21 @@ class NewDeck extends Component {
     const {navigation} = this.props
     return (
       <View style={{flex: 1}}>
-        <Heading title='New Deck' navigation={{navigation}} />
+        <Heading title='New Deck' navigation={navigation} />
         <Card style={{ backgroundColor: '#fff' }}>
           <Text style={{marginBottom: 10, textAlign: 'center'}}>Deck title</Text>
           <TextInput {...this.props} editable maxLength={20} onChangeText={(text) => this.setState({title: text})} value={this.state.title} />
           <Button
             backgroundColor='#03A9F4'
-            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+            buttonStyle={{borderRadius: 0, margin: 1}}
             title='Save'
             onPress={() => {
               let id = this.save(this.state)
-              navigation.navigate(`deck/${id}`)
+              navigation.navigate('ViewDeck', {id})
             }} />
           <Button
             backgroundColor='#03A9F4'
-            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+            buttonStyle={{borderRadius: 0, margin: 1}}
             title='Cancel'
             onPress={() => {
               this.cancel()

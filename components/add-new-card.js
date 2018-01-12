@@ -13,9 +13,9 @@ class NewCard extends Component {
 
   constructor ({props}) {
     super(props)
-    const {deck} = props
+    // const {deck} = props
     this.state = defaultState
-    this.state.deck = deck
+    // this.state.deck = deck
   }
 
   save (state) {
@@ -29,10 +29,10 @@ class NewCard extends Component {
 
   render () {
     const {navigation} = this.props
-    const {deck} = this.state
+    // const {deck} = this.state
     return (
       <View style={{flex: 1}}>
-        <Heading title='New Card' navigation={{navigation}} />
+        <Heading title='New Card' navigation={navigation} />
         <Card style={{ backgroundColor: '#fff' }}>
           <Text style={{marginBottom: 10, textAlign: 'center'}}>Question</Text>
           <TextInput {...this.props} editable maxLength={50} onChangeText={(text) => this.setState({question: text})} value={this.state.question} />
@@ -40,19 +40,20 @@ class NewCard extends Component {
           <TextInput {...this.props} editable maxLength={50} onChangeText={(text) => this.setState({answer: text})} value={this.state.answer} />
           <Button
             backgroundColor='#03A9F4'
-            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+            buttonStyle={{borderRadius: 0, margin: 1}}
             title='Save'
             onPress={() => {
-              this.save(this.state)
-              navigation.navigate(`deck/${deck.id}`)
+              let id = this.save(this.state)
+              navigation.navigate('ViewDeck', {id})
             }} />
           <Button
             backgroundColor='#03A9F4'
-            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+            buttonStyle={{borderRadius: 0, margin: 1}}
             title='Cancel'
             onPress={() => {
+              const id = 1
               this.cancel()
-              navigation.navigate('Home')
+              navigation.navigate('ViewDeck', {id})
             }
             } />
         </Card>

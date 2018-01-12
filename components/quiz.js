@@ -5,7 +5,7 @@ import Heading from './app-bar'
 
 const Quiz = ({navigation}) => (
   <View style={{flex: 1}}>
-    <Heading title='Quiz' navigation={{navigation}} />
+    <Heading title='Quiz' navigation={navigation} />
     <Card style={{ backgroundColor: '#fff' }}>
       <Text style={{marginBottom: 10, textAlign: 'center'}}>Quiz</Text>
     </Card>

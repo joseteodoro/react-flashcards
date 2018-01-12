@@ -6,7 +6,7 @@ const Deck = ({deck, navigation}) => (
     key={deck.id}
     title={`${deck.title} [${deck.questions.length} cards]`}
     leftIcon={{name: deck.icon, size: 22}}
-    onPress={() => navigation.navigate(`deck/${deck.id}`)}
+    onPress={() => navigation.navigate('ViewDeck', {id: deck.id})}
   />
 )
 
