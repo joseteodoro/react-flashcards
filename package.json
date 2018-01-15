@@ -20,9 +20,13 @@
   },
   "dependencies": {
     "expo": "^23.0.4",
+    "randomstring": "^1.1.5",
     "react": "16.0.0",
     "react-native": "0.50.3",
     "react-native-elements": "^0.18.5",
-    "react-navigation": "^1.0.0-beta.23"
+    "react-navigation": "^1.0.0-beta.23",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0"
   }
 }

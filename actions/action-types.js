@@ -1,0 +1,7 @@
+export const HOME = 'HOME'
+export const ADD_DECK = 'ADD_DECK'
+export const UPDATE_DECK = 'ADD_DECK'
+export const ADD_CARD = 'ADD_CARD'
+export const UPDATE_CARD = 'UPDATE_CARD'
+export const LOAD_DECK = 'LOAD_DECK'
+export const LOAD_CARD = 'LOAD_CARD'
