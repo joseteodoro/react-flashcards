@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput } from 'react-native'
 import { Card, Button } from 'react-native-elements'
+import randomstring from 'randomstring'
 import Heading from './app-bar'
 
 let defaultState = {
@@ -19,8 +20,10 @@ class NewCard extends Component {
   }
 
   save (state) {
-    this.saveNewCard(this.state)
+    const id = randomstring.generate()
+    this.props.saveNewCard({...this.state, id})
     this.setState(defaultState)
+    return id
   }
 
   cancel () {

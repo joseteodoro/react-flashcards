@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { View, Text, TextInput } from 'react-native'
 import { Card, Button } from 'react-native-elements'
+import randomstring from 'randomstring'
 import Heading from './app-bar'
 import { addDeck } from '../actions'
 
@@ -20,8 +21,8 @@ class NewDeck extends Component {
   }
 
   save (state) {
-    let { id } = this.state
-    this.props.addNewDeck(this.state)
+    const id = randomstring.generate()
+    this.props.addNewDeck({...this.state, id})
     this.setState(defaultState)
     return id
   }
