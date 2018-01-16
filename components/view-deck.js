@@ -11,14 +11,14 @@ class ViewDeck extends React.Component {
   componentDidMount () {
     const { deck } = this.props
     if (!deck) {
-      this.props.loadDeck()
+      this.props.loadDeck(this.props.navigation.state.params.id)
     }
   }
 
   render () {
     return (
       <View style={{flex: 1}}>
-        <Heading title='View Deck' navigation={this.props.navigation} />
+        <Heading title={(this.props.deck && this.props.deck.name) || 'Loading...'} navigation={this.props.navigation} />
         <Card style={{ backgroundColor: '#fff' }}>
           <Button
             backgroundColor='#03A9F4'
@@ -27,7 +27,7 @@ class ViewDeck extends React.Component {
             onPress={() => {
               // let id = this.save(this.state)
               const {deck} = this.props
-              this.props.navigation.navigate('NewCard', {deck})
+              this.props.navigation.navigate('NewCard', {deckId: deck.id})
             }} />
           <Button
             backgroundColor='#03A9F4'
@@ -36,9 +36,9 @@ class ViewDeck extends React.Component {
             onPress={() => {
               // let id = this.save(this.state)
               const {deck} = this.props
-              this.props.navigation.navigate('Quiz', {deck})
+              this.props.navigation.navigate('Quiz', {deckId: deck.id})
             }} />
-          <CardList cards={this.props.deck.cards} navigation={this.props.navigation} />
+          <CardList cards={(this.props.deck && this.props.deck.cards) || []} navigation={this.props.navigation} />
         </Card>
       </View>
     )
