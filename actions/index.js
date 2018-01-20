@@ -25,21 +25,20 @@ export const addDeck = ({name, id}) => {
   }
 }
 
+export const addCard = ({card, deckId}) => {
+  return {
+    type: types.ADD_CARD,
+    card,
+    deckId
+  }
+}
+
 // export const updateDeck = (id, name) => {
 //   return {
 //     type: types.UPDATE_DECK,
 //     deck: {id, name}
 //   }
 // }
-
-export const addCard = ({deck, card}) => {
-  return {
-    type: types.ADD_CARD,
-    deckId: deck.id,
-    deck,
-    card
-  }
-}
 
 // export const updateCard = (id, question, answer, deckId, deck) => {
 //   return {

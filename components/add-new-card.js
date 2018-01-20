@@ -3,9 +3,9 @@ import { View, Text, TextInput } from 'react-native'
 import { Card, Button } from 'react-native-elements'
 import { connect } from 'react-redux'
 import randomstring from 'random-string'
+import { NavigationActions } from 'react-navigation'
 import Heading from './app-bar'
 import { loadDeck, addCard } from '../actions'
-// var inspect = require('util-inspect')
 
 let defaultState = {
   id: null,
@@ -17,25 +17,22 @@ class NewCard extends Component {
 
   constructor ({props}) {
     super(props)
-    // const {deck} = props
     this.state = defaultState
-    // this.state.deck = deck
   }
 
   componentDidMount () {
-    const deckId = this.props.navigation.state.params.id
-    this.props.loadDeck({deckId})
+    const dontReload = (this.props.deck && this.props.deck.id && this.props.navigation.state.params.id === this.props.deck.id)
+    if (!dontReload) {
+      const deckId = this.props.navigation.state.params.id
+      this.props.loadDeck({deckId})
+    }
   }
 
   save (state) {
-    // console.log('adding new card props ##########', inspect(this.props))
-    const { deck } = this.props
     const id = randomstring({length: 20})
     const card = {...this.state, id}
-    // console.log('adding new card ##########', inspect(card))
-    // var inspect = require('util-inspect')
-    // console.log('adding new card on deck ##########', inspect(deck))
-    this.props.saveNewCard({deck, card})
+    const { deck } = this.props
+    this.props.saveNewCard({card, deckId: deck.id})
     this.setState(defaultState)
   }
 
@@ -44,8 +41,7 @@ class NewCard extends Component {
   }
 
   render () {
-    const {navigation, deck} = this.props
-    // const {deck} = this.state
+    const {navigation} = this.props
     return (
       <View style={{flex: 1}}>
         { this.props.deck && this.props.deck.name ? (
@@ -64,8 +60,7 @@ class NewCard extends Component {
             title='Save'
             onPress={() => {
               this.save(this.state)
-              // navigation.navigate('ViewDeck', {id: deck.id})
-              // navigation.dispatch(NavigationActions.back())
+              navigation.dispatch(NavigationActions.back())
             }} />
           <Button
             backgroundColor='#03A9F4'
@@ -73,8 +68,7 @@ class NewCard extends Component {
             title='Cancel'
             onPress={() => {
               this.cancel()
-              navigation.navigate('ViewDeck', {id: deck.id})
-              // navigation.dispatch(NavigationActions.back())
+              navigation.dispatch(NavigationActions.back())
             }
             } />
         </Card>
@@ -84,7 +78,6 @@ class NewCard extends Component {
 }
 
 function mapStateToProps ({ deck }) {
-  // console.log('new card mapStateProps ##########', inspect(deck))
   return { deck }
 }
 

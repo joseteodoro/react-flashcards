@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { View, Button } from 'react-native'
-import { Card } from 'react-native-elements'
+import { Card, Button } from 'react-native-elements'
+import { View } from 'react-native'
 import Heading from './app-bar'
 import CardList from './list-cards'
 import { loadDeck } from '../actions'
@@ -10,8 +10,11 @@ var inspect = require('util-inspect')
 class ViewDeck extends React.Component {
 
   componentDidMount () {
-    const deckId = this.props.navigation.state.params.id
-    this.props.loadDeck({deckId})
+    const dontReload = (this.props.deck && this.props.deck.id && this.props.navigation.state.params.id === this.props.deck.id)
+    if (!dontReload) {
+      const deckId = this.props.navigation.state.params.id
+      this.props.loadDeck({deckId})
+    }
   }
 
   render () {
@@ -52,9 +55,9 @@ class ViewDeck extends React.Component {
   }
 }
 
-function mapStateToProps ({ deck }) {
+function mapStateToProps ({ deck, cards }) {
   console.log('view deck mapStateProps ##########', inspect(deck))
-  return { deck }
+  return { deck, cards }
 }
 
 function mapDispatchToProps (dispatch) {

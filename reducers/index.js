@@ -5,31 +5,51 @@ export default function decks (state = {decks: []}, action) {
   // console.log('reducer ##########', inspect(action))
   switch (action.type) {
     case types.HOME: {
-      if (!(state.decks && state.decks.length)) {
-        const {decks} = action
-        return {...state, decks}
+      const noReloadFromStore = (state.decks && state.decks.length)
+      if (noReloadFromStore) {
+        return state
       }
-      return state
+      const { decks } = action
+      return {...state, decks}
     }
 
     case types.LOAD_DECK: {
-      const inspect = require('util-inspect')
-      console.log('loading deck ##########', inspect(action))
       const deck = state.decks.find((item) => item.id === action.deckId)
-      return {...state, deck}
+      let cards = []
+      if (deck) {
+        cards = deck.cards
+      }
+      return {...state, deck, cards}
     }
 
-    case types.LOAD_CARD: {
-      const { deckId, cardId } = action
+    // case types.LOAD_CARD: {
+    //   const { deckId, cardId } = action
+    //   const deck = state.decks.find((item) => item.id === deckId)
+    //   const card = deck.cards.find((item) => item.id === cardId)
+    //   return {...state, deck, card}
+    // }
+
+    case types.ADD_CARD: {
+      const { card, deckId } = action
       const deck = state.decks.find((item) => item.id === deckId)
-      const card = deck.cards.find((item) => item.id === cardId)
-      return {...state, deck, card}
+      deck.cards = deck.cards.concat(card)
+      const decks = state.decks.map((item) => {
+        if (item.id === deckId) {
+          return deck
+        }
+        return item
+      })
+      const { cards } = deck
+      return {...state, decks, cards}
     }
 
-    case types.ADD_CARD:
     case types.ADD_DECK: {
-      const { decks, deck } = {action}
-      return {...state, decks, deck}
+      const { deck } = action
+      const decks = state.decks
+        .filter((item) => item.id !== deck.id)
+        .concat(deck)
+        .sort((l, r) => l.name > r.name)
+      return {...state, decks, deck, cards: []}
     }
 
     // case types.UPDATE_DECK:
