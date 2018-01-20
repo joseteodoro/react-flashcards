@@ -10,8 +10,7 @@ import { home } from '../actions'
 class Home extends React.Component {
 
   componentDidMount () {
-    // const { decks } = this.props
-    // if (!decks) {
+    // if (!(this.props.decks && this.props.decks.length)) {
     this.props.getDecks()
     // }
   }
@@ -28,8 +27,10 @@ class Home extends React.Component {
             title='New Deck'
             onPress={() => this.props.navigation.navigate('NewDeck')} />
         </Card>
-        { !this.props.decks && !this.props.decks.length ? (<DeckList items={[]} navigation={this.props.navigation} />) : (
+        { this.props.decks && this.props.decks.length ? (
           <DeckList items={this.props.decks} navigation={this.props.navigation} />
+        ) : (
+          <DeckList items={[]} navigation={this.props.navigation} />
         )}
       </View>
     )
@@ -37,6 +38,8 @@ class Home extends React.Component {
 }
 
 function mapStateToProps ({decks}) {
+  var inspect = require('util-inspect')
+  console.log('home after mapStateProps, decks ##########', inspect(decks))
   return { decks }
 }
 

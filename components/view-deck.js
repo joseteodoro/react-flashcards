@@ -38,10 +38,10 @@ class ViewDeck extends React.Component {
             title='Take a Quiz'
             onPress={() => {
               // let id = this.save(this.state)
-              const {deck} = this.props
-              this.props.navigation.navigate('Quiz', {deckId: deck.id})
+              // const {deck} = this.props
+              // this.props.navigation.navigate('Quiz', {deckId: deck.id})
             }} />
-          <CardList cards={(this.props.deck && this.props.deck.cards) || []} navigation={this.props.navigation} />
+          <CardList cards={[]} navigation={this.props.navigation} />
         </Card>
       </View>
     )

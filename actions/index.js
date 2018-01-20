@@ -1,4 +1,5 @@
 import * as types from './action-types'
+const inspect = require('util-inspect')
 
 export const loadDeck = (deckId) => {
   return {
@@ -24,36 +25,34 @@ export const addDeck = ({name, id}) => {
   }
 }
 
-export const updateDeck = (id, name) => {
-  return {
-    type: types.UPDATE_DECK,
-    deck: {id, name}
-  }
-}
+// export const updateDeck = (id, name) => {
+//   return {
+//     type: types.UPDATE_DECK,
+//     deck: {id, name}
+//   }
+// }
 
-export const addCard = (deck, {id, question, answer, deckId}) => {
+export const addCard = ({deck, card}) => {
+  console.log('deck whn new card ##########', inspect(deck))
+  console.log('action recieving new card ##########', inspect(card))
   return {
     type: types.ADD_CARD,
-    deckId,
-    deck,
-    card: {id, question, answer}
+    deckId: deck.id,
+    card
   }
 }
 
-export const updateCard = (id, question, answer, deckId, deck) => {
-  return {
-    type: types.UPDATE_CARD,
-    deckId,
-    deck,
-    card: {id, question, answer}
-  }
-}
+// export const updateCard = (id, question, answer, deckId, deck) => {
+//   return {
+//     type: types.UPDATE_CARD,
+//     deckId,
+//     deck,
+//     card: {id, question, answer}
+//   }
+// }
 
 export const home = () => {
   return {
-    type: types.HOME,
-    decks: [],
-    deck: null,
-    card: null
+    type: types.HOME
   }
 }

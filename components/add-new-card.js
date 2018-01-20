@@ -5,8 +5,8 @@ import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import randomstring from 'random-string'
 import Heading from './app-bar'
-import { loadDeck } from '../actions'
-var inspect = require('util-inspect')
+import { loadDeck, addCard } from '../actions'
+// var inspect = require('util-inspect')
 
 let defaultState = {
   id: null,
@@ -24,13 +24,18 @@ class NewCard extends Component {
   }
 
   componentDidMount () {
-    this.props.loadDeck(this.props.navigation.state.params.id)
+    this.props.loadDeck(this.props.navigation.state.params.deckId)
+    // console.log('new card load deck ##########', inspect(this.props.navigation.state.params))
   }
 
   save (state) {
+    // console.log('adding new card props ##########', inspect(this.props))
     const { deck } = this.props
     const id = randomstring({length: 20})
-    this.props.saveNewCard(deck, {...this.state, id})
+    const card = {...this.state, id}
+    // console.log('adding new card ##########', inspect(card))
+    // console.log('adding new card on deck ##########', inspect(deck))
+    this.props.saveNewCard({deck, card})
     this.setState(defaultState)
   }
 
@@ -43,7 +48,11 @@ class NewCard extends Component {
     // const {deck} = this.state
     return (
       <View style={{flex: 1}}>
-        <Heading title='New Card' navigation={navigation} />
+        { this.props.deck && this.props.deck.name ? (
+          <Heading title={`New card on ${this.props.deck.name}`} navigation={navigation} />
+        ) : (
+          <Heading title='Loading...' navigation={navigation} />
+        ) }
         <Card style={{ backgroundColor: '#fff' }}>
           <Text style={{marginBottom: 10, textAlign: 'center'}}>Question</Text>
           <TextInput {...this.props} editable maxLength={50} onChangeText={(text) => this.setState({question: text})} value={this.state.question} />
@@ -73,13 +82,14 @@ class NewCard extends Component {
 }
 
 function mapStateToProps ({ deck }) {
-  console.log('new card mapStateProps ##########', inspect(deck))
+  // console.log('new card mapStateProps ##########', inspect(deck))
   return { deck }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    loadDeck: data => dispatch(loadDeck(data))
+    loadDeck: data => dispatch(loadDeck(data)),
+    saveNewCard: data => dispatch(addCard(data))
   }
 }
 

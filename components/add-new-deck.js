@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { View, Text, TextInput } from 'react-native'
 import { Card, Button } from 'react-native-elements'
-import { NavigationActions } from 'react-navigation'
 import randomstring from 'random-string'
 import Heading from './app-bar'
 import { addDeck } from '../actions'
@@ -44,8 +43,10 @@ class NewDeck extends Component {
             buttonStyle={{borderRadius: 0, margin: 1}}
             title='Save'
             onPress={() => {
-              let id = this.save(this.state)
-              navigation.navigate('ViewDeck', {id})
+              this.save(this.state)
+              // let id = this.save(this.state)
+              // navigation.navigate('ViewDeck', {id})
+              navigation.navigate('Home')
             }} />
           <Button
             backgroundColor='#03A9F4'
@@ -53,7 +54,7 @@ class NewDeck extends Component {
             title='Cancel'
             onPress={() => {
               this.cancel()
-              navigation.dispatch(NavigationActions.back())
+              navigation.navigate('Home')
             }
             } />
         </Card>
