@@ -38,8 +38,8 @@ class Home extends React.Component {
 }
 
 function mapStateToProps ({decks}) {
-  var inspect = require('util-inspect')
-  console.log('home after mapStateProps, decks ##########', inspect(decks))
+  // var inspect = require('util-inspect')
+  // console.log('home after mapStateProps, decks ##########', inspect(decks))
   return { decks }
 }
 
