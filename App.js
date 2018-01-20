@@ -26,6 +26,7 @@ const Stack = StackNavigator({
     screen: ViewDeck
   },
   NewCard: {
+    path: 'NewCard/:id',
     screen: NewCard
   },
   ViewQuestion: {

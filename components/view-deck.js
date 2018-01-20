@@ -10,8 +10,8 @@ var inspect = require('util-inspect')
 class ViewDeck extends React.Component {
 
   componentDidMount () {
-    this.props.loadDeck(this.props.navigation.state.params.id)
-    console.log('view deck ##########', inspect(this.props.navigation.state.params))
+    const deckId = this.props.navigation.state.params.id
+    this.props.loadDeck({deckId})
   }
 
   render () {
@@ -30,7 +30,7 @@ class ViewDeck extends React.Component {
             onPress={() => {
               // let id = this.save(this.state)
               const {deck} = this.props
-              this.props.navigation.navigate('NewCard', {deckId: deck.id})
+              this.props.navigation.navigate('NewCard', {id: deck.id})
             }} />
           <Button
             backgroundColor='#03A9F4'
@@ -41,7 +41,11 @@ class ViewDeck extends React.Component {
               // const {deck} = this.props
               // this.props.navigation.navigate('Quiz', {deckId: deck.id})
             }} />
-          <CardList cards={[]} navigation={this.props.navigation} />
+          { this.props.deck && this.props.deck.name ? (
+            <CardList cards={this.props.deck.cards} navigation={this.props.navigation} />
+          ) : (
+            <CardList cards={[]} navigation={this.props.navigation} />
+          ) }
         </Card>
       </View>
     )

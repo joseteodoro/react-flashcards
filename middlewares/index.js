@@ -2,6 +2,9 @@ import * as types from '../actions/action-types'
 import { AsyncStorage } from 'react-native'
 
 export default function decks ({getState}) {
+  var inspect = require('util-inspect')
+  console.log('middleware getState', inspect(getState()))
+
   return (next) => (action) => {
     switch (action.type) {
       case types.HOME: {
@@ -14,43 +17,34 @@ export default function decks ({getState}) {
       }
 
       case types.ADD_CARD: {
+        const decks = getState().decks
         const { card, deckId } = action
-        AsyncStorage.getItem('DECKS')
-        .then((decks) => {
-          const toUpdate = ((decks && JSON.parse(decks)) || [])
-            .map((item) => {
-              if (item.id === deckId) {
-                let updatedDeck = {...item}
-                updatedDeck.cards = updatedDeck.cards.concat(card)
-                action.deck = updatedDeck
-                return updatedDeck
-              }
-              return item
-            })
-          action.decks = toUpdate
-          return AsyncStorage.setItem('DECKS', JSON.stringify(toUpdate))
+        const toUpdate = decks.map((item) => {
+          if (item.id === deckId) {
+            let updatedDeck = {...item}
+            updatedDeck.cards = updatedDeck.cards.concat(card)
+            return updatedDeck
+          }
+          return item
         })
+        AsyncStorage.setItem('DECKS', JSON.stringify(toUpdate))
         .then((_) => {
-          return next(action)
+          next(action)
         })
         break
       }
 
       case types.ADD_DECK: {
+        const decks = getState().decks
         const { deck } = action
-        AsyncStorage.getItem('DECKS')
-        .then((decks) => {
-          const toUpdate = ((decks && JSON.parse(decks)) || [])
-            .filter((item) => item.id !== deck.id)
-            .concat(deck)
-            .sort((left, right) => left.name > right.name)
-          action.decks = toUpdate
-          AsyncStorage.setItem('DECKS', JSON.stringify(toUpdate))
-          .then((_) => {
-            var inspect = require('util-inspect')
-            console.log('midlware after add deck returning the promisse, decks ##########', inspect(action))
-            return next(action)
-          })
+        const toUpdate = decks
+          .filter((item) => item.id !== deck.id)
+          .concat(deck)
+          .sort((left, right) => left.name > right.name)
+
+        AsyncStorage.setItem('DECKS', JSON.stringify(toUpdate))
+        .then((_) => {
+          return next(action)
         })
         break
       }

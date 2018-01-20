@@ -5,11 +5,16 @@ export default function decks (state = {decks: []}, action) {
   // console.log('reducer ##########', inspect(action))
   switch (action.type) {
     case types.HOME: {
-      const {decks} = action
-      return {...state, decks}
+      if (!(state.decks && state.decks.length)) {
+        const {decks} = action
+        return {...state, decks}
+      }
+      return state
     }
 
     case types.LOAD_DECK: {
+      const inspect = require('util-inspect')
+      console.log('loading deck ##########', inspect(action))
       const deck = state.decks.find((item) => item.id === action.deckId)
       return {...state, deck}
     }
@@ -24,8 +29,6 @@ export default function decks (state = {decks: []}, action) {
     case types.ADD_CARD:
     case types.ADD_DECK: {
       const { decks, deck } = {action}
-      const inspect = require('util-inspect')
-      console.log('reducing after add ##########', inspect(action))
       return {...state, decks, deck}
     }
 
