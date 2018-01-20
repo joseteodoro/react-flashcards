@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput } from 'react-native'
 import { Card, Button } from 'react-native-elements'
-import randomstring from 'randomstring'
+import { connect } from 'react-redux'
+import { NavigationActions } from 'react-navigation'
+import randomstring from 'random-string'
 import Heading from './app-bar'
+import { loadDeck } from '../actions'
+var inspect = require('util-inspect')
 
 let defaultState = {
   id: null,
@@ -19,11 +23,15 @@ class NewCard extends Component {
     // this.state.deck = deck
   }
 
+  componentDidMount () {
+    this.props.loadDeck(this.props.navigation.state.params.id)
+  }
+
   save (state) {
-    const id = randomstring.generate()
-    this.props.saveNewCard({...this.state, id})
+    const { deck } = this.props
+    const id = randomstring({length: 20})
+    this.props.saveNewCard(deck, {...this.state, id})
     this.setState(defaultState)
-    return id
   }
 
   cancel () {
@@ -46,17 +54,16 @@ class NewCard extends Component {
             buttonStyle={{borderRadius: 0, margin: 1}}
             title='Save'
             onPress={() => {
-              let id = this.save(this.state)
-              navigation.navigate('ViewDeck', {id})
+              this.save(this.state)
+              navigation.dispatch(NavigationActions.back())
             }} />
           <Button
             backgroundColor='#03A9F4'
             buttonStyle={{borderRadius: 0, margin: 1}}
             title='Cancel'
             onPress={() => {
-              const id = 1
               this.cancel()
-              navigation.navigate('ViewDeck', {id})
+              navigation.dispatch(NavigationActions.back())
             }
             } />
         </Card>
@@ -65,4 +72,15 @@ class NewCard extends Component {
   }
 }
 
-export default NewCard
+function mapStateToProps ({ deck }) {
+  console.log('new card mapStateProps ##########', inspect(deck))
+  return { deck }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    loadDeck: data => dispatch(loadDeck(data))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewCard)

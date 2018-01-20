@@ -5,8 +5,8 @@ import Deck from './deck-list-item'
 const DeckList = ({items, navigation}) => (
   <List>
     {
-      items.map((item, i) => (
-        <Deck deck={item} key={`${i}_deck`} navigation={navigation} />
+      items.map((item) => (
+        <Deck key={item.id} deck={item} navigation={navigation} />
       ))
     }
   </List>

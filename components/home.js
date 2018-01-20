@@ -5,14 +5,15 @@ import { Card, Button } from 'react-native-elements'
 import Heading from './app-bar'
 import DeckList from './list-deck'
 import { home } from '../actions'
+// var inspect = require('util-inspect')
 
 class Home extends React.Component {
 
   componentDidMount () {
-    const { decks } = this.props
-    if (!decks) {
-      this.props.getDecks()
-    }
+    // const { decks } = this.props
+    // if (!decks) {
+    this.props.getDecks()
+    // }
   }
 
   render () {
@@ -27,13 +28,15 @@ class Home extends React.Component {
             title='New Deck'
             onPress={() => this.props.navigation.navigate('NewDeck')} />
         </Card>
-        <DeckList items={this.props.decks} navigation={this.props.navigation} />
+        { !this.props.decks && !this.props.decks.length ? (<DeckList items={[]} navigation={this.props.navigation} />) : (
+          <DeckList items={this.props.decks} navigation={this.props.navigation} />
+        )}
       </View>
     )
   }
 }
 
-function mapStateToProps ({ decks }) {
+function mapStateToProps ({decks}) {
   return { decks }
 }
 

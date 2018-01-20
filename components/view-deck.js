@@ -5,20 +5,23 @@ import { Card } from 'react-native-elements'
 import Heading from './app-bar'
 import CardList from './list-cards'
 import { loadDeck } from '../actions'
+var inspect = require('util-inspect')
 
 class ViewDeck extends React.Component {
 
   componentDidMount () {
-    const { deck } = this.props
-    if (!deck) {
-      this.props.loadDeck(this.props.navigation.state.params.id)
-    }
+    this.props.loadDeck(this.props.navigation.state.params.id)
+    console.log('view deck ##########', inspect(this.props.navigation.state.params))
   }
 
   render () {
     return (
       <View style={{flex: 1}}>
-        <Heading title={(this.props.deck && this.props.deck.name) || 'Loading...'} navigation={this.props.navigation} />
+        { this.props.deck && this.props.deck.name ? (
+          <Heading title={this.props.deck.name} navigation={this.props.navigation} />
+        ) : (
+          <Heading title='Loading...' navigation={this.props.navigation} />
+        ) }
         <Card style={{ backgroundColor: '#fff' }}>
           <Button
             backgroundColor='#03A9F4'
@@ -46,6 +49,7 @@ class ViewDeck extends React.Component {
 }
 
 function mapStateToProps ({ deck }) {
+  console.log('view deck mapStateProps ##########', inspect(deck))
   return { deck }
 }
 

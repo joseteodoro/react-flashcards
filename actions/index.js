@@ -3,8 +3,7 @@ import * as types from './action-types'
 export const loadDeck = (deckId) => {
   return {
     type: types.LOAD_DECK,
-    deckId,
-    deck: null
+    deckId
   }
 }
 
@@ -18,7 +17,7 @@ export const loadCard = (cardId, deckId, deck) => {
   }
 }
 
-export const addDeck = (id, name) => {
+export const addDeck = ({name, id}) => {
   return {
     type: types.ADD_DECK,
     deck: {id, name, cards: []}
@@ -32,7 +31,7 @@ export const updateDeck = (id, name) => {
   }
 }
 
-export const addCard = (id, question, answer, deckId, deck) => {
+export const addCard = (deck, {id, question, answer, deckId}) => {
   return {
     type: types.ADD_CARD,
     deckId,

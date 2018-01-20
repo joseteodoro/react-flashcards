@@ -1,15 +1,11 @@
-import * as types from '../action-types'
+import * as types from '../actions/action-types'
 import { AsyncStorage } from 'react-native'
+// var inspect = require('util-inspect')
 
-function loadDeck (action, forceReload) {
-  const { deck, deckId } = {action}
-  if (deck && !forceReload) {
-    return deck
-  }
-  AsyncStorage.getItem('DECKS')
-  .then((decks) => {
-    return JSON.parse(decks)[deckId]
-  })
+function loadDeck (action) {
+  const { deckId } = {action}
+  return AsyncStorage.getItem('DECKS')
+    .then((decks) => JSON.parse(decks).find((item) => item.id === deckId))
 }
 
 function updateDeck (deck) {
@@ -20,7 +16,7 @@ function updateDeck (deck) {
   })
 }
 
-export default function decks () {
+export default function decks ({getState}) {
   return (next) => (action) => {
     switch (action.type) {
       case types.HOME: {
@@ -29,44 +25,28 @@ export default function decks () {
             action.decks = JSON.parse(decks)
             return next(action)
           })
-          .catch((error) => {
-            console.log('AsyncStorage save error: ' + error.message)
-          })
         break
       }
 
+      case types.ADD_CARD:
       case types.ADD_DECK: {
-        const { deck } = {action}
+        const { card, deck } = action
+        if (card) {
+          deck.cards = deck.cards.concat(card)
+        }
         AsyncStorage.getItem('DECKS')
         .then((decks) => {
-          const toUpdate = JSON.parse(decks)
-          toUpdate[deck.id] = deck
+          const toUpdate = ((decks && JSON.parse(decks)) || [])
+            .filter((item) => item.id !== deck.id)
+            .concat(deck)
+            .sort((left, right) => left.id > right.id)
+          action.decks = toUpdate
           return AsyncStorage.setItem('DECKS', JSON.stringify(toUpdate))
         })
         .then((_) => {
           return next(action)
         })
         break
-      }
-
-      case types.LOAD_DECK: {
-        action.deck = loadDeck(action, true)
-        return next(action)
-      }
-
-      case types.LOAD_CARD: {
-        const { cardId } = {action}
-        action.deck = loadDeck(action)
-        action.card = action.deck.cards.find((item) => item.id === cardId)
-        return next(action)
-      }
-
-      case types.ADD_CARD: {
-        action.deck = loadDeck(action, true)
-        const { card, deck } = {action}
-        deck.cards.push(card)
-        updateDeck(deck)
-        return next(action)
       }
 
       case types.UPDATE_DECK: {
