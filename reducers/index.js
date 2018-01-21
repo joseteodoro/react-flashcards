@@ -1,9 +1,45 @@
 import * as types from '../actions/action-types'
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max))
+}
+
+function randomCards(cards, randomCount) {
+  const sampleSize = Math.min(randomCount, cards.length)
+  const set = new Set([])
+  while (set.size < sampleSize) {
+    set.add(cards[getRandomInt(cards.length)])
+  }
+  return [...set]
+}
+
 export default function decks (state = {decks: []}, action) {
   // const inspect = require('util-inspect')
   // console.log('reducer ##########', inspect(action))
   switch (action.type) {
+    case types.START_QUIZ: {
+      const deck = state.decks.find((item) => item.id === action.deckId)
+      if (deck) {
+        const quizCards = randomCards(deck.cards, 5)
+        const quiz = {
+          cards: quizCards,
+          size: quizCards.length,
+          deckName: deck.name
+        }
+        return {...state, quiz}
+      }
+      return state
+    }
+
+    // case types.FINISH_QUIZ: {
+    //   const deck = state.decks.find((item) => item.id === action.deckId)
+    //   let cards = []
+    //   if (deck) {
+    //     cards = deck.cards
+    //   }
+    //   return {...state, deck, cards}
+    // }
+
     case types.HOME: {
       const noReloadFromStore = (state.decks && state.decks.length)
       if (noReloadFromStore) {

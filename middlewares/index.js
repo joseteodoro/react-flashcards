@@ -8,6 +8,7 @@ function addUpdateDeck (deck, next, action, card, deckId) {
       let targetDeck = null
       if (card) {
         targetDeck = loadedDecks.find((item) => item.id === deckId)
+        targetDeck.cards = targetDeck.cards.concat(card)
       } else {
         targetDeck = deck
       }

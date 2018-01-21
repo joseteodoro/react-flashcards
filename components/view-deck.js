@@ -5,7 +5,7 @@ import { View } from 'react-native'
 import Heading from './app-bar'
 import CardList from './list-cards'
 import { loadDeck } from '../actions'
-var inspect = require('util-inspect')
+// var inspect = require('util-inspect')
 
 class ViewDeck extends React.Component {
 
@@ -39,10 +39,11 @@ class ViewDeck extends React.Component {
             backgroundColor='#03A9F4'
             buttonStyle={{borderRadius: 0, margin: 1}}
             title='Take a Quiz'
+            disabled={!(this.props.deck && this.props.deck.cards.length)}
             onPress={() => {
               // let id = this.save(this.state)
-              // const {deck} = this.props
-              // this.props.navigation.navigate('Quiz', {deckId: deck.id})
+              const {deck} = this.props
+              this.props.navigation.navigate('Quiz', {deckId: deck.id})
             }} />
           { this.props.deck && this.props.deck.name ? (
             <CardList cards={this.props.deck.cards} navigation={this.props.navigation} />
@@ -56,7 +57,7 @@ class ViewDeck extends React.Component {
 }
 
 function mapStateToProps ({ deck, cards }) {
-  console.log('view deck mapStateProps ##########', inspect(deck))
+  // console.log('view deck mapStateProps ##########', inspect(deck))
   return { deck, cards }
 }
 

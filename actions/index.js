@@ -18,6 +18,19 @@ export const loadDeck = ({deckId}) => {
 //   }
 // }
 
+export const startQuiz = ({deckId}) => {
+  return {
+    type: types.START_QUIZ,
+    deckId
+  }
+}
+
+export const finishQuiz = () => {
+  return {
+    type: types.FINISH_QUIZ
+  }
+}
+
 export const addDeck = ({name, id}) => {
   return {
     type: types.ADD_DECK,

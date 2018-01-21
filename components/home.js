@@ -17,9 +17,9 @@ class Home extends React.Component {
 
   render () {
     return (
-      <View style={{flex: 1}}>
+      <View>
         <Heading title='Flash Cards' navigation={this.props.navigation} />
-        <Card style={{ backgroundColor: '#fff' }}>
+        <Card style={{flex: 1, backgroundColor: '#fff'}}>
           <Text style={{marginBottom: 10, textAlign: 'center'}}>Add a new deck to play some quizes</Text>
           <Button
             backgroundColor='#03A9F4'
