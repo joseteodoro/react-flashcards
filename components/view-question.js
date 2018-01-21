@@ -1,14 +1,17 @@
 import React from 'react'
+import { Button, Card } from 'react-native-elements'
 import { View, Text } from 'react-native'
-import { Card } from 'react-native-elements'
-import Heading from './app-bar'
 
-const ViewQuestion = ({navigation}) => (
-  <View style={{flex: 1}}>
-    <Heading title='Quiz' navigation={navigation} />
-    <Card style={{ backgroundColor: '#fff' }}>
-      <Text style={{marginBottom: 10, textAlign: 'center'}}>ViewQuestion</Text>
+const ViewQuestion = ({styles, card, buttonFunction}) => (
+  <View>
+    <Card style={{flex: 1, backgroundColor: '#fff'}}>
+      <Text style={styles.content}>{`Answer: ${card.question}`}</Text>
     </Card>
+    <Button
+      backgroundColor='#1f7059'
+      buttonStyle={{borderRadius: 0, margin: 1}}
+      title='See Answer'
+      onPress={buttonFunction} />
   </View>
 )
 

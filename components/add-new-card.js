@@ -1,11 +1,24 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput } from 'react-native'
+import { View, Text, TextInput, StyleSheet } from 'react-native'
 import { Card, Button } from 'react-native-elements'
 import { connect } from 'react-redux'
 import randomstring from 'random-string'
 import { NavigationActions } from 'react-navigation'
 import Heading from './app-bar'
 import { loadDeck, addCard } from '../actions'
+
+const styles = StyleSheet.create({
+  baseText: {
+    marginBottom: 10,
+    textAlign: 'center'
+  },
+  content: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center'
+  }
+})
 
 let defaultState = {
   id: null,
@@ -50,9 +63,9 @@ class NewCard extends Component {
           <Heading title='Loading...' navigation={navigation} />
         ) }
         <Card style={{ backgroundColor: '#fff' }}>
-          <Text style={{marginBottom: 10, textAlign: 'center'}}>Question</Text>
+          <Text style={styles.content}>Question</Text>
           <TextInput {...this.props} editable maxLength={50} onChangeText={(text) => this.setState({question: text})} value={this.state.question} />
-          <Text style={{marginBottom: 10, textAlign: 'center'}}>Answer</Text>
+          <Text style={styles.content}>Answer</Text>
           <TextInput {...this.props} editable maxLength={50} onChangeText={(text) => this.setState({answer: text})} value={this.state.answer} />
           <Button
             backgroundColor='#03A9F4'

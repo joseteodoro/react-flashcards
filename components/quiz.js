@@ -1,10 +1,25 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Card, Button } from 'react-native-elements'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import Heading from './app-bar'
+import ViewAnswer from './view-answer'
+import ViewQuestion from './view-question'
+import QuizSummary from './quiz-summary'
 import { startQuiz, finishQuiz } from '../actions'
 // var inspect = require('util-inspect')
+
+const styles = StyleSheet.create({
+  baseText: {
+    marginBottom: 10,
+    textAlign: 'center'
+  },
+  content: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center'
+  }
+})
 
 let defaultState = {
   hits: 0,
@@ -25,6 +40,7 @@ class Quiz extends React.Component {
   }
 
   step (correctAnswer) {
+    this.seeAnswer(false)
     let {misses, counter, hits} = this.state
     if (correctAnswer) {
       hits = hits + 1
@@ -41,8 +57,6 @@ class Quiz extends React.Component {
   }
 
   render () {
-    const inspect = require('util-inspect')
-    console.log('view quiz ##########', inspect(this.props.quiz))
     return (
       <View style={{flex: 1}}>
         { this.props.quiz && this.props.quiz.deckName ? (
@@ -52,49 +66,41 @@ class Quiz extends React.Component {
         ) }
         { this.props.quiz && this.props.quiz.deckName ? (
           <View style={{flex: 1}}>
-            <View style={{flex: 1}}>
-              <Text>header with how many questions and the number of the current question</Text>
-              <Text>{`${this.state.counter + 1} of ${this.props.quiz.size}`}</Text>
-            </View>
-            <View style={{flex: 1}}>
-              {this.state.showAnswer ? (
-                <View>
-                  <Text>{`Answer: ${this.props.quiz.cards[this.state.counter]}`}</Text>
-                  <Button
-                    backgroundColor='#03A9F4'
-                    buttonStyle={{borderRadius: 0, margin: 1}}
-                    title='See Question'
-                    onPress={() => {
-                      this.seeAnswer(false)
-                    }} />
+            {this.props.quiz.size <= this.state.counter ? (
+              <QuizSummary
+                styles={styles}
+                deckId={this.props.navigation.state.params.deckId}
+                hits={this.state.hits}
+                questionsCount={this.props.quiz.size}
+                navigation={this.props.navigation} />
+            ) : (
+              <View>
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                  <Text style={styles.baseText}>{`${this.state.counter + 1} of ${this.props.quiz.size}`}</Text>
                 </View>
-              ) : (
-                <View>
-                  <Text>{`Question: ${this.props.quiz.cards[this.state.counter]}`}</Text>
-                  <Button
-                    backgroundColor='#03A9F4'
-                    buttonStyle={{borderRadius: 0, margin: 1}}
-                    title='See Answer'
-                    onPress={() => {
-                      this.seeAnswer(true)
-                    }} />
+                <View >
+                  {!this.state.showAnswer ? (
+                    <ViewQuestion styles={styles}
+                      card={this.props.quiz.cards[this.state.counter]}
+                      buttonFunction={() => { this.seeAnswer(true) }} />
+                  ) : (
+                    <ViewAnswer styles={styles}
+                      card={this.props.quiz.cards[this.state.counter]}
+                      buttonActionCorrect={() => {
+                        this.step(true)
+                      }}
+                      buttonActionIncorrect={() => {
+                        this.step(false)
+                      }}
+                    />
+                  )}
                 </View>
-              )}
-            </View>
-            <View style={{flex: 1}}>
-              <Button
-                backgroundColor='#03A9F4'
-                buttonStyle={{borderRadius: 0, margin: 1}}
-                title='Next' disabled={this.state.counter + 1 >= this.props.quiz.size}
-                onPress={() => {
-                  this.seeAnswer(false)
-                  this.step(true)
-                }} />
-            </View>
+              </View>
+            )}
           </View>
         ) : (
           <View style={{flex: 1}}>
-            <Text>Looking for questions ...</Text>
+            <Text style={styles.baseText}>Looking for questions ...</Text>
           </View>
         )}
       </View>
