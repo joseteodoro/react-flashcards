@@ -1,5 +1,11 @@
 import * as types from './action-types'
-// const inspect = require('util-inspect')
+
+export const updateQuizSize = ({quizSize}) => {
+  return {
+    type: types.UPDATE_QUIZ_SIZE,
+    quizSize
+  }
+}
 
 export const loadDeck = ({deckId}) => {
   return {
@@ -7,16 +13,6 @@ export const loadDeck = ({deckId}) => {
     deckId
   }
 }
-
-// export const loadCard = (cardId, deckId, deck) => {
-//   return {
-//     type: types.LOAD_CARD,
-//     deckId,
-//     cardId,
-//     deck,
-//     card: null
-//   }
-// }
 
 export const startQuiz = ({deckId}) => {
   return {
@@ -45,22 +41,6 @@ export const addCard = ({card, deckId}) => {
     deckId
   }
 }
-
-// export const updateDeck = (id, name) => {
-//   return {
-//     type: types.UPDATE_DECK,
-//     deck: {id, name}
-//   }
-// }
-
-// export const updateCard = (id, question, answer, deckId, deck) => {
-//   return {
-//     type: types.UPDATE_CARD,
-//     deckId,
-//     deck,
-//     card: {id, question, answer}
-//   }
-// }
 
 export const home = () => {
   return {

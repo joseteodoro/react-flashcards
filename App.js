@@ -7,6 +7,7 @@ import NewCard from './components/add-new-card'
 import ViewDeck from './components/view-deck'
 import Quiz from './components/quiz'
 import configureStore from './configureStore'
+import ViewConfig from './components/view-config'
 
 const navigationOptions = {
   initialRouteName: 'Home'
@@ -30,6 +31,9 @@ const Stack = StackNavigator({
   Quiz: {
     path: 'quiz/:id',
     screen: Quiz
+  },
+  ViewConfig: {
+    screen: ViewConfig
   }
 }, navigationOptions)
 

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput, StyleSheet } from 'react-native'
+import { Text, TextInput, StyleSheet } from 'react-native'
 import { Card, Button } from 'react-native-elements'
 import { connect } from 'react-redux'
 import randomstring from 'random-string'
 import { NavigationActions } from 'react-navigation'
 import Heading from './app-bar'
 import { loadDeck, addCard } from '../actions'
+import FadeInView from './fade-in-view'
 
 const styles = StyleSheet.create({
   baseText: {
@@ -56,7 +57,7 @@ class NewCard extends Component {
   render () {
     const {navigation} = this.props
     return (
-      <View style={{flex: 1}}>
+      <FadeInView style={{flex: 1}}>
         { this.props.deck && this.props.deck.name ? (
           <Heading title={`New card on ${this.props.deck.name}`} navigation={navigation} />
         ) : (
@@ -85,7 +86,7 @@ class NewCard extends Component {
             }
             } />
         </Card>
-      </View>
+      </FadeInView>
     )
   }
 }

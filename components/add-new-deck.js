@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, TextInput, StyleSheet } from 'react-native'
+import { Text, TextInput, StyleSheet } from 'react-native'
 import { Card, Button } from 'react-native-elements'
 import { NavigationActions } from 'react-navigation'
 import randomstring from 'random-string'
+import FadeInView from './fade-in-view'
 import Heading from './app-bar'
 import { addDeck } from '../actions'
 
@@ -47,7 +48,7 @@ class NewDeck extends Component {
   render () {
     const { navigation } = this.props
     return (
-      <View style={{flex: 1}}>
+      <FadeInView style={{flex: 1}}>
         <Heading title='New Deck' navigation={navigation} />
         <Card style={{ backgroundColor: '#fff' }}>
           <Text style={styles.content}>What is the title of our new deck?</Text>
@@ -55,7 +56,7 @@ class NewDeck extends Component {
           <Button
             backgroundColor='#03A9F4'
             buttonStyle={{borderRadius: 0, margin: 1}}
-            title='Save'
+            title='Create Deck'
             onPress={() => {
               let id = this.save(this.state)
               navigation.navigate('ViewDeck', {id})
@@ -70,7 +71,7 @@ class NewDeck extends Component {
             }
             } />
         </Card>
-      </View>
+      </FadeInView>
     )
   }
 }

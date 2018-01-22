@@ -6,6 +6,7 @@ import ViewAnswer from './view-answer'
 import ViewQuestion from './view-question'
 import QuizSummary from './quiz-summary'
 import { startQuiz, finishQuiz } from '../actions'
+import FadeInView from './fade-in-view'
 // var inspect = require('util-inspect')
 
 const styles = StyleSheet.create({
@@ -58,7 +59,7 @@ class Quiz extends React.Component {
 
   render () {
     return (
-      <View style={{flex: 1}}>
+      <FadeInView style={{flex: 1}}>
         { this.props.quiz && this.props.quiz.deckName ? (
           <Heading title={`Quiz on ${this.props.quiz.deckName}`} navigation={this.props.navigation} />
         ) : (
@@ -103,7 +104,7 @@ class Quiz extends React.Component {
             <Text style={styles.baseText}>Looking for questions ...</Text>
           </View>
         )}
-      </View>
+      </FadeInView>
     )
   }
 }

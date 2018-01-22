@@ -1,11 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Card, Button } from 'react-native-elements'
-import { View } from 'react-native'
 import Heading from './app-bar'
 import CardList from './list-cards'
+import FadeInView from './fade-in-view'
 import { loadDeck } from '../actions'
-// var inspect = require('util-inspect')
 
 class ViewDeck extends React.Component {
 
@@ -19,9 +18,9 @@ class ViewDeck extends React.Component {
 
   render () {
     return (
-      <View style={{flex: 1}}>
+      <FadeInView style={{flex: 1}}>
         { this.props.deck && this.props.deck.name ? (
-          <Heading title={this.props.deck.name} navigation={this.props.navigation} />
+          <Heading title={`${this.props.deck.name} with ${this.props.deck.cards.length} cards`} navigation={this.props.navigation} />
         ) : (
           <Heading title='Loading...' navigation={this.props.navigation} />
         ) }
@@ -29,35 +28,32 @@ class ViewDeck extends React.Component {
           <Button
             backgroundColor='#03A9F4'
             buttonStyle={{borderRadius: 0, margin: 1}}
-            title='New Card'
+            title='Create New Question'
             onPress={() => {
-              // let id = this.save(this.state)
               const {deck} = this.props
               this.props.navigation.navigate('NewCard', {id: deck.id})
             }} />
           <Button
             backgroundColor='#03A9F4'
             buttonStyle={{borderRadius: 0, margin: 1}}
-            title='Take a Quiz'
+            title='Start Quiz'
             disabled={!(this.props.deck && this.props.deck.cards.length)}
             onPress={() => {
-              // let id = this.save(this.state)
               const {deck} = this.props
               this.props.navigation.navigate('Quiz', {deckId: deck.id})
             }} />
-          { this.props.deck && this.props.deck.name ? (
-            <CardList cards={this.props.deck.cards} navigation={this.props.navigation} />
-          ) : (
-            <CardList cards={[]} navigation={this.props.navigation} />
-          ) }
         </Card>
-      </View>
+        { this.props.deck && this.props.deck.name ? (
+          <CardList cards={this.props.deck.cards} navigation={this.props.navigation} />
+        ) : (
+          <CardList cards={[]} navigation={this.props.navigation} />
+        ) }
+      </FadeInView>
     )
   }
 }
 
 function mapStateToProps ({ deck, cards }) {
-  // console.log('view deck mapStateProps ##########', inspect(deck))
   return { deck, cards }
 }
 

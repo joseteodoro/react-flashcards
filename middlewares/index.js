@@ -1,5 +1,12 @@
 import * as types from '../actions/action-types'
 import { AsyncStorage } from 'react-native'
+import updateLocaNotifications from '../notificationUtil'
+
+const defaultConfigurationState = {
+  notifications: false,
+  quizSize: 5,
+  notificationTime: '12:00'
+}
 
 function addUpdateDeck (deck, next, action, card, deckId) {
   AsyncStorage.getItem('DECKS')
@@ -19,7 +26,13 @@ function addUpdateDeck (deck, next, action, card, deckId) {
 
       AsyncStorage.setItem('DECKS', JSON.stringify(toUpdate))
       .then((_) => {
-        next(action)
+        AsyncStorage.getItem('ViewConfig')
+          .then((viewConfig) => {
+            const loadedConfig = ((viewConfig && JSON.parse(viewConfig)) || defaultConfigurationState)
+            const {quizSize} = loadedConfig
+            action.quizSize = quizSize
+            next(action)
+          })
       })
     })
 }
@@ -27,6 +40,16 @@ function addUpdateDeck (deck, next, action, card, deckId) {
 export default function decks () {
   return (next) => (action) => {
     switch (action.type) {
+      case types.START_QUIZ: {
+        AsyncStorage.getItem('ViewConfig')
+          .then((viewConfig) => {
+            const loadedConfig = ((viewConfig && JSON.parse(viewConfig)) || defaultConfigurationState)
+            updateLocaNotifications(loadedConfig)
+            next(action)
+          })
+        break
+      }
+
       case types.HOME: {
         AsyncStorage.getItem('DECKS')
           .then((decks) => {
@@ -47,21 +70,6 @@ export default function decks () {
         addUpdateDeck(deck, next, action)
         break
       }
-
-      // case types.UPDATE_DECK: {
-      //   const deck = loadDeck(action, true)
-      //   action.deck = Object.assign(deck, action.deck)
-      //   updateDeck(action.deck)
-      //   return next(action)
-      // }
-      //
-      // case types.UPDATE_CARD: {
-      //   action.deck = loadDeck(action, true)
-      //   const { card, deck } = {action}
-      //   deck.cards.push(card)
-      //   updateDeck(deck)
-      //   return next(action)
-      // }
 
       default : {
         next(action)

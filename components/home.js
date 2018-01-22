@@ -5,6 +5,7 @@ import { Card, Button } from 'react-native-elements'
 import Heading from './app-bar'
 import DeckList from './list-deck'
 import { home } from '../actions'
+import FadeInView from './fade-in-view'
 // var inspect = require('util-inspect')
 
 const styles = StyleSheet.create({
@@ -30,7 +31,7 @@ class Home extends React.Component {
 
   render () {
     return (
-      <View>
+      <FadeInView>
         <Heading title='Flash Cards' navigation={this.props.navigation} />
         <View>
           <Card style={{flex: 1, backgroundColor: '#fff'}}>
@@ -38,7 +39,7 @@ class Home extends React.Component {
             <Button
               backgroundColor='#03A9F4'
               buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-              title='New Deck'
+              title='Add a new Deck'
               onPress={() => this.props.navigation.navigate('NewDeck')} />
           </Card>
           { this.props.decks && this.props.decks.length ? (
@@ -47,7 +48,7 @@ class Home extends React.Component {
             <DeckList items={[]} navigation={this.props.navigation} />
           )}
         </View>
-      </View>
+      </FadeInView>
     )
   }
 }
