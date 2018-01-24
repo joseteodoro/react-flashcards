@@ -1,11 +1,13 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { Card, Button } from 'react-native-elements'
-import { View, Switch, AsyncStorage, StyleSheet, Text, Picker } from 'react-native'
+import { Button } from 'react-native-elements'
+import { View, Switch, StyleSheet, Text, Picker } from 'react-native'
+import DateTimePicker from 'react-native-modal-datetime-picker'
+import moment from 'moment'
 import Heading from './app-bar'
-import { updateQuizSize } from '../actions'
+import {loadConfiguration, saveConfiguration} from '../storeUtils'
 import updateLocaNotifications from '../notificationUtil'
 import FadeInView from './fade-in-view'
+// import inspect from 'util-inspect'
 
 const styles = StyleSheet.create({
   baseText: {
@@ -23,8 +25,9 @@ const styles = StyleSheet.create({
 const defaultState = {
   notifications: false,
   quizSize: 5,
-  notificationHour: 12,
-  notificationMinute: 0
+  notificationTime: new Date(),
+  displayNotification: moment().format('hh:mm'),
+  isDateTimePickerVisible: false
 }
 
 class ViewConfig extends React.Component {
@@ -35,11 +38,9 @@ class ViewConfig extends React.Component {
   }
 
   loadFromStore () {
-    AsyncStorage.getItem('ViewConfig')
-      .then((viewConfig) => {
-        const loadedConfig = ((viewConfig && JSON.parse(viewConfig)) || defaultState)
-        this.setState(loadedConfig)
-      })
+    loadConfiguration((loadedConfig) => {
+      this.setState(loadedConfig)
+    })
   }
 
   componentDidMount () {
@@ -47,37 +48,31 @@ class ViewConfig extends React.Component {
   }
 
   save (viewConfig) {
-    updateLocaNotifications(viewConfig)
-    AsyncStorage.setItem('ViewConfig', JSON.stringify(viewConfig))
-    .then((_) => {
-      updateQuizSize(viewConfig)
+    saveConfiguration(viewConfig, () => {
+      updateLocaNotifications(viewConfig)
     })
-  }
-
-  getChilds (amount) {
-    (Array(amount).map((month, i) => {
-      return <Picker.Item label='banana' value='banana' key={i} />
-    }))
   }
 
   render () {
     return (
       <FadeInView style={{flex: 1}}>
         <Heading title='Configurations' navigation={this.props.navigation} />
-        <Card style={{ backgroundColor: '#fff' }}>
+        <View style={{flex: 1, alignItems: 'center', margin: 20, padding: 5}} >
           <Text style={styles.content}>Send notifications to remember me?</Text>
           <Switch value={this.state.notifications} onValueChange={(value) => this.setState({notifications: value})} />
           <Text style={styles.content}>Remember me at:</Text>
-          <View style={{flex: 1, flexDirection: 'column'}}>
-            <Picker selectedValue={this.state.notificationHour}
-              onValueChange={(itemValue, itemIndex) => this.setState({notificationHour: itemValue})}>
-              {this.getChilds(24)}
-            </Picker>
-            <Picker selectedValue={this.state.notificationMinute}
-              onValueChange={(itemValue, itemIndex) => this.setState({notificationMinute: itemValue})}>
-              {this.getChilds(60)}
-            </Picker>
-          </View>
+          <Button
+            backgroundColor='#03A9F4'
+            buttonStyle={{borderRadius: 0, margin: 1}}
+            title={this.state.displayNotification} onPress={() => this.setState({ isDateTimePickerVisible: true })} />
+          <DateTimePicker mode='time'
+            isVisible={this.state.isDateTimePickerVisible}
+            onConfirm={(notificationTime) => {
+              const displayNotification = moment(notificationTime).format('hh:mm')
+              this.setState({notificationTime, isDateTimePickerVisible: false, displayNotification})
+            }}
+            onCancel={() => this.setState({ isDateTimePickerVisible: false })}
+          />
           <Text style={styles.content}>Quiz question size</Text>
           <Picker selectedValue={this.state.quizSize}
             onValueChange={(itemValue, itemIndex) => this.setState({quizSize: itemValue})}>
@@ -85,32 +80,27 @@ class ViewConfig extends React.Component {
             <Picker.Item label='10' value={10} />
             <Picker.Item label='20' value={20} />
           </Picker>
+        </View>
+        <View style={{flex: 1, justifyContent: 'flex-end'}} >
           <Button
             backgroundColor='#03A9F4'
-            buttonStyle={{borderRadius: 0, margin: 1}}
+            buttonStyle={{borderRadius: 0, margin: 5}}
             title='Save'
             onPress={() => {
-              const {notifications, quizSize, notificationTime, localNotificationId} = this.props
-              this.save({notifications, quizSize, notificationTime, localNotificationId})
+              this.save(this.state)
               this.props.navigation.navigate('Home')
             }} />
           <Button
             backgroundColor='#03A9F4'
-            buttonStyle={{borderRadius: 0, margin: 1}}
+            buttonStyle={{borderRadius: 0, margin: 5}}
             title='Cancel'
             onPress={() => {
               this.props.navigation.navigate('Home')
             }} />
-        </Card>
+        </View>
       </FadeInView>
     )
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    updateQuizSize: data => dispatch(updateQuizSize(data))
-  }
-}
-
-export default connect(null, mapDispatchToProps)(ViewConfig)
+export default ViewConfig

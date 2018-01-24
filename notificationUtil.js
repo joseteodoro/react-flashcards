@@ -1,17 +1,17 @@
-import * as moment from 'moment'
+import moment from 'moment'
 import { Notifications } from 'expo'
+import {loadConfiguration, saveConfiguration} from './storeUtils'
 
-export default function updateLocaNotifications ({notifications, notificationHour, notificationMinute}) {
+export default function updateLocaNotifications ({notifications, notificationTime}) {
   Notifications.cancelAllScheduledNotificationsAsync()
   if (notifications) {
+    let notificationMoment = moment(notificationTime)
     const now = moment()
-    const day = now.date()
-    const month = now.month()
-    const year = now.year()
-    const date = moment(`${year}/${month}/${day} ${notificationHour}:${notificationMinute}:00`)
-    date.add(1, 'minutes')
+    if (notificationMoment.isBefore(now)) {
+      notificationMoment.add(1, 'days')
+    }
     const schedulingOptions = {
-      time: date.valueOf()
+      time: notificationMoment.valueOf()
     }
     const localNotification = {
       title: 'Flash Cards',
@@ -22,6 +22,12 @@ export default function updateLocaNotifications ({notifications, notificationHou
         vibrate: true
       }
     }
-    Notifications.scheduleLocalNotificationAsync(localNotification, schedulingOptions)
+    loadConfiguration((loadedConfig) => {
+      const notificationTime = new Date(notificationMoment.valueOf())
+      const updatedConfig = {...loadedConfig, notificationTime}
+      saveConfiguration(updatedConfig, () => {
+        Notifications.scheduleLocalNotificationAsync(localNotification, schedulingOptions)
+      })
+    })
   }
 }
