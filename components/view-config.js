@@ -4,7 +4,7 @@ import { View, Switch, StyleSheet, Text, Picker } from 'react-native'
 import DateTimePicker from 'react-native-modal-datetime-picker'
 import moment from 'moment'
 import Heading from './app-bar'
-import {loadConfiguration, saveConfiguration} from '../storeUtils'
+import {loadConfiguration} from '../storeUtils'
 import updateLocaNotifications from '../notificationUtil'
 import FadeInView from './fade-in-view'
 // import inspect from 'util-inspect'
@@ -48,9 +48,7 @@ class ViewConfig extends React.Component {
   }
 
   save (viewConfig) {
-    saveConfiguration(viewConfig, () => {
-      updateLocaNotifications(viewConfig)
-    })
+    updateLocaNotifications(viewConfig)
   }
 
   render () {

@@ -1,61 +1,47 @@
 import * as types from '../actions/action-types'
-import { AsyncStorage } from 'react-native'
 import updateLocaNotifications from '../notificationUtil'
-
-const defaultConfigurationState = {
-  notifications: false,
-  quizSize: 5,
-  notificationTime: '12:00'
-}
+import {saveDecks, loadDecks, loadConfiguration} from '../storeUtils'
 
 function addUpdateDeck (deck, next, action, card, deckId) {
-  AsyncStorage.getItem('DECKS')
-    .then((decks) => {
-      const loadedDecks = ((decks && JSON.parse(decks)) || [])
-      let targetDeck = null
-      if (card) {
-        targetDeck = loadedDecks.find((item) => item.id === deckId)
-        targetDeck.cards = targetDeck.cards.concat(card)
-      } else {
-        targetDeck = deck
-      }
-      const toUpdate = loadedDecks
-        .filter((item) => item.id !== targetDeck.id)
-        .concat(targetDeck)
-        .sort((left, right) => left.name > right.name)
+  loadDecks((loadedDecks) => {
+    let targetDeck = null
+    if (card) {
+      targetDeck = loadedDecks.find((item) => item.id === deckId)
+      targetDeck.cards = targetDeck.cards.concat(card)
+    } else {
+      targetDeck = deck
+    }
+    const toUpdate = loadedDecks
+      .filter((item) => item.id !== targetDeck.id)
+      .concat(targetDeck)
+      .sort((left, right) => left.name > right.name)
 
-      AsyncStorage.setItem('DECKS', JSON.stringify(toUpdate))
-      .then((_) => {
-        AsyncStorage.getItem('ViewConfig')
-          .then((viewConfig) => {
-            const loadedConfig = ((viewConfig && JSON.parse(viewConfig)) || defaultConfigurationState)
-            const {quizSize} = loadedConfig
-            action.quizSize = quizSize
-            next(action)
-          })
-      })
+    saveDecks(toUpdate, () => {
+      next(action)
     })
+  })
 }
 
 export default function decks () {
   return (next) => (action) => {
     switch (action.type) {
       case types.START_QUIZ: {
-        AsyncStorage.getItem('ViewConfig')
-          .then((viewConfig) => {
-            const loadedConfig = ((viewConfig && JSON.parse(viewConfig)) || defaultConfigurationState)
-            updateLocaNotifications(loadedConfig)
-            next(action)
-          })
+        loadConfiguration((loadedConfig) => {
+          updateLocaNotifications(loadedConfig)
+          Object.assign(action, loadedConfig)
+          next(action)
+        })
         break
       }
 
       case types.HOME: {
-        AsyncStorage.getItem('DECKS')
-          .then((decks) => {
-            action.decks = (decks && JSON.parse(decks)) || []
+        loadDecks((decks) => {
+          action.decks = decks
+          loadConfiguration((loadedConfig) => {
+            Object.assign(action, loadedConfig)
             next(action)
           })
+        })
         break
       }
 

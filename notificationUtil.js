@@ -1,8 +1,9 @@
 import moment from 'moment'
 import { Notifications } from 'expo'
-import {loadConfiguration, saveConfiguration} from './storeUtils'
+import {saveConfiguration} from './storeUtils'
 
-export default function updateLocaNotifications ({notifications, notificationTime}) {
+export default function updateLocaNotifications (configs) {
+  const {notifications, notificationTime} = configs
   Notifications.cancelAllScheduledNotificationsAsync()
   if (notifications) {
     let notificationMoment = moment(notificationTime)
@@ -22,12 +23,10 @@ export default function updateLocaNotifications ({notifications, notificationTim
         vibrate: true
       }
     }
-    loadConfiguration((loadedConfig) => {
-      const notificationTime = new Date(notificationMoment.valueOf())
-      const updatedConfig = {...loadedConfig, notificationTime}
-      saveConfiguration(updatedConfig, () => {
-        Notifications.scheduleLocalNotificationAsync(localNotification, schedulingOptions)
-      })
+    const updatedTime = new Date(notificationMoment.valueOf())
+    Object.assign(configs, updatedTime)
+    saveConfiguration(configs, () => {
+      Notifications.scheduleLocalNotificationAsync(localNotification, schedulingOptions)
     })
   }
 }
