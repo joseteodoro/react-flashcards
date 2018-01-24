@@ -10,12 +10,12 @@ const ViewAnswer = ({styles, card, buttonActionCorrect, buttonActionIncorrect}) 
     </Card>
     <Button
       backgroundColor='#1f7059'
-      buttonStyle={{borderRadius: 0, margin: 1}}
+      buttonStyle={{borderRadius: 0, margin: 5}}
       title='Correct'
       onPress={buttonActionCorrect} />
     <Button
       backgroundColor='#c4252d'
-      buttonStyle={{borderRadius: 0, margin: 1}}
+      buttonStyle={{borderRadius: 0, margin: 5}}
       title='Incorrect'
       onPress={buttonActionIncorrect} />
   </FadeInView>

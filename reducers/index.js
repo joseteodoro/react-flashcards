@@ -15,15 +15,11 @@ function randomCards (cards, randomCount) {
 
 export default function decks (state = {decks: [], quizSize: 5}, action) {
   switch (action.type) {
-    case types.UPDATE_QUIZ_SIZE: {
-      const {quizSize} = action
-      return {...state, quizSize}
-    }
-
     case types.START_QUIZ: {
       const deck = state.decks.find((item) => item.id === action.deckId)
       if (deck) {
-        const quizCards = randomCards(deck.cards, 5)
+        const maxSize = state.quizSize || 5
+        const quizCards = randomCards(deck.cards, maxSize)
         const quiz = {
           cards: quizCards,
           size: quizCards.length,

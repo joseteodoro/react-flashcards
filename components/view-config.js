@@ -39,12 +39,13 @@ class ViewConfig extends React.Component {
 
   loadFromStore () {
     loadConfiguration((loadedConfig) => {
-      this.setState(loadedConfig)
+      this.setState({...loadedConfig, isDateTimePickerVisible: false})
     })
   }
 
   componentDidMount () {
     this.loadFromStore()
+    this.setState({isDateTimePickerVisible: false})
   }
 
   save (viewConfig) {
@@ -77,6 +78,7 @@ class ViewConfig extends React.Component {
             <Picker.Item label='5' value={5} />
             <Picker.Item label='10' value={10} />
             <Picker.Item label='20' value={20} />
+            <Picker.Item label='All Cards' value={1000} />
           </Picker>
         </View>
         <View style={{flex: 1, justifyContent: 'flex-end'}} >

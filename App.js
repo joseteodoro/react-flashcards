@@ -1,6 +1,7 @@
 import React from 'react'
 import { StackNavigator } from 'react-navigation'
 import { Provider } from 'react-redux'
+import { View } from 'react-native'
 import Home from './components/home'
 import NewDeck from './components/add-new-deck'
 import NewCard from './components/add-new-card'
@@ -43,7 +44,9 @@ export default class App extends React.Component {
   render () {
     return (
       <Provider store={store}>
-        <Stack />
+        <View style={{flex: 1}}>
+          <Stack />
+        </View>
       </Provider>
     )
   }
