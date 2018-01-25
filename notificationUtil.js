@@ -8,11 +8,12 @@ export default function updateLocaNotifications (configs) {
   if (notifications) {
     let notificationMoment = moment(notificationTime)
     const now = moment()
-    if (notificationMoment.isBefore(now)) {
+    while (notificationMoment.isBefore(now)) {
       notificationMoment.add(1, 'days')
     }
     const schedulingOptions = {
-      time: notificationMoment.valueOf()
+      time: notificationMoment.valueOf(),
+      repeat: 'day'
     }
     const localNotification = {
       title: 'Flash Cards',

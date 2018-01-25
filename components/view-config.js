@@ -56,7 +56,7 @@ class ViewConfig extends React.Component {
     return (
       <FadeInView style={{flex: 1}}>
         <Heading title='Configurations' navigation={this.props.navigation} />
-        <View style={{flex: 1, alignItems: 'center', margin: 20, padding: 5}} >
+        <View style={{flex: 1, alignItems: 'center', margin: 10, padding: 5}} >
           <Text style={styles.content}>Send notifications to remember me?</Text>
           <Switch value={this.state.notifications} onValueChange={(value) => this.setState({notifications: value})} />
           <Text style={styles.content}>Remember me at:</Text>
@@ -72,7 +72,9 @@ class ViewConfig extends React.Component {
             }}
             onCancel={() => this.setState({ isDateTimePickerVisible: false })}
           />
-          <Text style={styles.content}>Quiz question size</Text>
+          <Text style={styles.content} >Quiz question size</Text>
+        </View>
+        <View>
           <Picker selectedValue={this.state.quizSize}
             onValueChange={(itemValue, itemIndex) => this.setState({quizSize: itemValue})}>
             <Picker.Item label='5' value={5} />
@@ -102,5 +104,4 @@ class ViewConfig extends React.Component {
     )
   }
 }
-
 export default ViewConfig
