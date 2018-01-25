@@ -37,32 +37,55 @@ There are eight main screens on this app: `Home`, `Add new Deck`, `View Deck`, `
 
 Home is the application landing page. From there, #1 you can create a new deck, #2 view a deck or #3 go to the configuration screen.
 
-
+![Landing page](https://raw.githubusercontent.com/joseteodoro/react-flashcards/master/doc/images/home.png)
 
 ### Add new Deck
 
 Add a new deck to add cards and take quiz on that.
 
+![Add new deck](https://raw.githubusercontent.com/joseteodoro/react-flashcards/master/doc/images/add-new-deck.png)
+
 ### View Deck
 
 See the cards of a deck, add new cards and start a quiz on that deck (the max number of cards on the quiz can be configured on the Configuration screen).
+
+![View deck](https://raw.githubusercontent.com/joseteodoro/react-flashcards/master/doc/images/inside-deck.png)
 
 ### Add new Card
 
 Add a new card to use on the quiz.
 
+
+![Add card](https://raw.githubusercontent.com/joseteodoro/react-flashcards/master/doc/images/add-new-question.png)
+
 ### Quiz question
 
 Shows a card question.
+
+![Show question](https://raw.githubusercontent.com/joseteodoro/react-flashcards/master/doc/images/question-in-quiz.png)
 
 ### Quiz answer
 
 Shows a card answer.
 
+![Show answer](https://raw.githubusercontent.com/joseteodoro/react-flashcards/master/doc/images/question-answer-on-quiz.png)
+
 ### Quiz summary
 
 Presents the summary about the answers on the quiz.
 
+![Quiz summary](https://raw.githubusercontent.com/joseteodoro/react-flashcards/master/doc/images/quiz-summary.png)
+
+
 ### Configuration
 
 Configure the notifications to remember to study and change the max card number on the quiz.
+
+![Configuration](https://raw.githubusercontent.com/joseteodoro/react-flashcards/master/doc/images/configuration.png)
+
+![Configure notification](https://raw.githubusercontent.com/joseteodoro/react-flashcards/master/doc/images/time-inside-configuration.png)
+
+![Configure quiz size](https://raw.githubusercontent.com/joseteodoro/react-flashcards/master/doc/images/select-quiz-size.png)
+
+
+License MIT
