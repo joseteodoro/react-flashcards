@@ -53,37 +53,37 @@ See the cards of a deck, add new cards and start a quiz on that deck (the max nu
 
 ### Add new Card
 
-Add a new card to use on the quiz.
-
+Add a new card to use on the quiz. You must provide the question and the answer.
 
 ![Add card](https://raw.githubusercontent.com/joseteodoro/react-flashcards/master/doc/images/add-new-question.png)
 
 ### Quiz question
 
-Shows a card question.
+This screen shows a card question. You must try to answer the question and then press the `Show answer` button to check the question's answer. You can see how much questions are missing before end the quiz in the top of the screen. For example: `1/2` (first of two questions).
 
 ![Show question](https://raw.githubusercontent.com/joseteodoro/react-flashcards/master/doc/images/question-in-quiz.png)
 
 ### Quiz answer
 
-Shows a card answer.
+Shows a card answer and ask you to say if you got a correct answer or not.
 
 ![Show answer](https://raw.githubusercontent.com/joseteodoro/react-flashcards/master/doc/images/question-answer-on-quiz.png)
 
 ### Quiz summary
 
-Presents the summary about the answers on the quiz.
+After mark all the questions as correct or incorrect, you will be redirected to the quiz summary. That screen presents the summary about your answers on the quiz.
 
 ![Quiz summary](https://raw.githubusercontent.com/joseteodoro/react-flashcards/master/doc/images/quiz-summary.png)
 
-
 ### Configuration
 
-Configure the notifications to remember to study and change the max card number on the quiz.
+Configure the notifications to remember to study and change the max card number on the quiz. If enabled, a notification will be send to you on the smartphone every day if you forget to take a quiz on that day.
 
 ![Configuration](https://raw.githubusercontent.com/joseteodoro/react-flashcards/master/doc/images/configuration.png)
 
 ![Configure notification](https://raw.githubusercontent.com/joseteodoro/react-flashcards/master/doc/images/time-inside-configuration.png)
+
+You can configure the max quiz size.
 
 ![Configure quiz size](https://raw.githubusercontent.com/joseteodoro/react-flashcards/master/doc/images/select-quiz-size.png)
 
