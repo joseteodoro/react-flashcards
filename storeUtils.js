@@ -1,9 +1,14 @@
 import { AsyncStorage } from 'react-native'
 
+const defaultConfig = {
+  notifications: false,
+  quizSize: 5
+}
+
 export const loadConfiguration = (cb) => {
   AsyncStorage.getItem('ViewConfig')
     .then((viewConfig) => {
-      const loadedConfig = ((viewConfig && JSON.parse(viewConfig)))
+      const loadedConfig = ((viewConfig && JSON.parse(viewConfig)) || defaultConfig)
       cb(loadedConfig)
     })
 }
