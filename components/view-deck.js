@@ -9,7 +9,11 @@ import { loadDeck } from '../actions'
 class ViewDeck extends React.Component {
 
   componentDidMount () {
-    const dontReload = (this.props.deck && this.props.deck.id && this.props.navigation.state.params.id === this.props.deck.id)
+    const dontReload = (
+      this.props.deck &&
+      this.props.deck.id &&
+      this.props.navigation.state.params.id === this.props.deck.id
+    )
     if (!dontReload) {
       const deckId = this.props.navigation.state.params.id
       this.props.loadDeck({deckId})

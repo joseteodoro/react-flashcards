@@ -18,6 +18,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center'
+  },
+  flex: {
+    flex: 1
+  },
+  buttonStyle: {
+    borderRadius: 0,
+    margin: 1
+  },
+  card: {
+    backgroundColor: '#fff'
   }
 })
 
@@ -57,20 +67,20 @@ class NewCard extends Component {
   render () {
     const {navigation} = this.props
     return (
-      <FadeInView style={{flex: 1}}>
+      <FadeInView style={styles.flex}>
         { this.props.deck && this.props.deck.name ? (
           <Heading title={`New card on ${this.props.deck.name}`} navigation={navigation} />
         ) : (
           <Heading title='Loading...' navigation={navigation} />
         ) }
-        <Card style={{ backgroundColor: '#fff' }}>
+        <Card style={styles.card}>
           <Text style={styles.content}>Question</Text>
           <TextInput {...this.props} editable maxLength={50} onChangeText={(text) => this.setState({question: text})} value={this.state.question} />
           <Text style={styles.content}>Answer</Text>
           <TextInput {...this.props} editable maxLength={50} onChangeText={(text) => this.setState({answer: text})} value={this.state.answer} />
           <Button
             backgroundColor='#03A9F4'
-            buttonStyle={{borderRadius: 0, margin: 1}}
+            buttonStyle={styles.buttonStyle}
             title='Save'
             onPress={() => {
               this.save(this.state)
@@ -78,7 +88,7 @@ class NewCard extends Component {
             }} />
           <Button
             backgroundColor='#03A9F4'
-            buttonStyle={{borderRadius: 0, margin: 1}}
+            buttonStyle={styles.buttonStyle}
             title='Cancel'
             onPress={() => {
               this.cancel()
