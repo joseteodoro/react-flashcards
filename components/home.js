@@ -1,25 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text } from 'react-native'
 import { Card, Button } from 'react-native-elements'
 import Heading from './app-bar'
 import DeckList from './list-deck'
 import { home } from '../actions'
 import FadeInView from './fade-in-view'
+import styles from './style'
 // var inspect = require('util-inspect')
-
-const styles = StyleSheet.create({
-  baseText: {
-    marginBottom: 10,
-    textAlign: 'center'
-  },
-  content: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center'
-  }
-})
 
 class Home extends React.Component {
 
@@ -34,7 +22,7 @@ class Home extends React.Component {
       <FadeInView>
         <Heading title='Flash Cards' navigation={this.props.navigation} />
         <View>
-          <Card style={{flex: 1, backgroundColor: '#fff'}}>
+          <Card style={styles.card}>
             <Text style={styles.content}>Add a new deck</Text>
             <Button
               backgroundColor='#03A9F4'
@@ -54,8 +42,6 @@ class Home extends React.Component {
 }
 
 function mapStateToProps ({decks}) {
-  // var inspect = require('util-inspect')
-  // console.log('home after mapStateProps, decks ##########', inspect(decks))
   return { decks }
 }
 

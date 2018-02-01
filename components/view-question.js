@@ -2,15 +2,16 @@ import React from 'react'
 import { Button, Card } from 'react-native-elements'
 import { Text } from 'react-native'
 import FadeInView from './fade-in-view'
+import styles from './style'
 
-const ViewQuestion = ({styles, card, buttonFunction}) => (
+const ViewQuestion = ({card, buttonFunction}) => (
   <FadeInView>
-    <Card style={{flex: 1, backgroundColor: '#fff'}}>
+    <Card style={styles.card}>
       <Text style={styles.content}>{card.question}</Text>
     </Card>
     <Button
       backgroundColor='#03A9F4'
-      buttonStyle={{borderRadius: 0, margin: 1}}
+      buttonStyle={styles.buttonStyle}
       title='Show Answer'
       onPress={buttonFunction} />
   </FadeInView>

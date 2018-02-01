@@ -5,6 +5,7 @@ import Heading from './app-bar'
 import CardList from './list-cards'
 import FadeInView from './fade-in-view'
 import { loadDeck } from '../actions'
+import styles from './style'
 
 class ViewDeck extends React.Component {
 
@@ -28,10 +29,10 @@ class ViewDeck extends React.Component {
         ) : (
           <Heading title='Loading...' navigation={this.props.navigation} />
         ) }
-        <Card style={{ backgroundColor: '#fff' }}>
+        <Card style={styles.card}>
           <Button
             backgroundColor='#03A9F4'
-            buttonStyle={{borderRadius: 0, margin: 1}}
+            buttonStyle={styles.buttonStyle}
             title='Create New Question'
             onPress={() => {
               const {deck} = this.props
@@ -39,7 +40,7 @@ class ViewDeck extends React.Component {
             }} />
           <Button
             backgroundColor='#03A9F4'
-            buttonStyle={{borderRadius: 0, margin: 1}}
+            buttonStyle={styles.buttonStyle}
             title='Start Quiz'
             disabled={!(this.props.deck && this.props.deck.cards.length)}
             onPress={() => {

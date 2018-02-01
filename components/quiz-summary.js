@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Card } from 'react-native-elements'
 import { Text } from 'react-native'
 import FadeInView from './fade-in-view'
+import styles from './style'
 
 function getMessage (hits, questionsCount) {
   const res = (hits / questionsCount) * 100
@@ -19,16 +20,16 @@ function getMessage (hits, questionsCount) {
 
 const QuizSummary = ({styles, deckId, hits, questionsCount, navigation}) => (
   <FadeInView style={{flex: 1}}>
-    <Card style={{ backgroundColor: '#fff' }}>
+    <Card style={styles.card}>
       <Text style={styles.content}>{getMessage(hits, questionsCount)}</Text>
       <Button
         backgroundColor='#03A9F4'
-        buttonStyle={{borderRadius: 0, margin: 1}}
+        buttonStyle={styles.buttonStyle}
         title='Back to Deck'
         onPress={() => navigation.navigate('ViewDeck', {id: deckId})} />
       <Button
         backgroundColor='#03A9F4'
-        buttonStyle={{borderRadius: 0, margin: 1}}
+        buttonStyle={styles.buttonStyle}
         title='Restart Quiz'
         onPress={() => navigation.navigate('Quiz', {deckId: deckId})} />
     </Card>

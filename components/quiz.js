@@ -1,26 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text } from 'react-native'
 import Heading from './app-bar'
 import ViewAnswer from './view-answer'
 import ViewQuestion from './view-question'
 import QuizSummary from './quiz-summary'
 import { startQuiz, finishQuiz } from '../actions'
 import FadeInView from './fade-in-view'
+import styles from './style'
 // var inspect = require('util-inspect')
-
-const styles = StyleSheet.create({
-  baseText: {
-    marginBottom: 10,
-    textAlign: 'center'
-  },
-  content: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center'
-  }
-})
 
 let defaultState = {
   hits: 0,
@@ -66,7 +54,7 @@ class Quiz extends React.Component {
           <Heading title='Loading quiz...' navigation={this.props.navigation} />
         ) }
         { this.props.quiz && this.props.quiz.deckName ? (
-          <View style={{flex: 1}}>
+          <View style={styles.flex}>
             {this.props.quiz.size <= this.state.counter ? (
               <QuizSummary
                 styles={styles}
@@ -100,7 +88,7 @@ class Quiz extends React.Component {
             )}
           </View>
         ) : (
-          <View style={{flex: 1}}>
+          <View style={styles.flex}>
             <Text style={styles.baseText}>Looking for questions ...</Text>
           </View>
         )}
@@ -110,8 +98,6 @@ class Quiz extends React.Component {
 }
 
 function mapStateToProps (parameters) {
-  const inspect = require('util-inspect')
-  console.log('view quiz mapStateToProps ##########', inspect(parameters))
   return { quiz: parameters.quiz }
 }
 

@@ -1,26 +1,14 @@
 import React from 'react'
 import { Button } from 'react-native-elements'
-import { View, Switch, StyleSheet, Text, Picker } from 'react-native'
+import { View, Switch, Text, Picker } from 'react-native'
 import DateTimePicker from 'react-native-modal-datetime-picker'
 import moment from 'moment'
 import Heading from './app-bar'
 import {loadConfiguration} from '../storeUtils'
 import updateLocaNotifications from '../notificationUtil'
 import FadeInView from './fade-in-view'
+import styles from './style'
 // import inspect from 'util-inspect'
-
-const styles = StyleSheet.create({
-  baseText: {
-    marginBottom: 10,
-    textAlign: 'center'
-  },
-  content: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center'
-  }
-})
 
 const defaultState = {
   notifications: false,
@@ -56,13 +44,13 @@ class ViewConfig extends React.Component {
     return (
       <FadeInView style={{flex: 1}}>
         <Heading title='Configurations' navigation={this.props.navigation} />
-        <View style={{flex: 1, alignItems: 'center', margin: 10, padding: 5}} >
+        <View style={styles.viewconfig} >
           <Text style={styles.content}>Send notifications to remember me?</Text>
           <Switch value={this.state.notifications} onValueChange={(value) => this.setState({notifications: value})} />
           <Text style={styles.content}>Remember me at:</Text>
           <Button
             backgroundColor='#03A9F4'
-            buttonStyle={{borderRadius: 0, margin: 1}}
+            buttonStyle={styles.buttonStyle}
             title={this.state.displayNotification} onPress={() => this.setState({ isDateTimePickerVisible: true })} />
           <DateTimePicker mode='time'
             isVisible={this.state.isDateTimePickerVisible}
@@ -86,7 +74,7 @@ class ViewConfig extends React.Component {
         <View style={{flex: 1, justifyContent: 'flex-end'}} >
           <Button
             backgroundColor='#03A9F4'
-            buttonStyle={{borderRadius: 0, margin: 5}}
+            buttonStyle={styles.buttonStyle}
             title='Save'
             onPress={() => {
               this.save(this.state)
@@ -94,7 +82,7 @@ class ViewConfig extends React.Component {
             }} />
           <Button
             backgroundColor='#03A9F4'
-            buttonStyle={{borderRadius: 0, margin: 5}}
+            buttonStyle={styles.buttonStyle}
             title='Cancel'
             onPress={() => {
               this.props.navigation.navigate('Home')
